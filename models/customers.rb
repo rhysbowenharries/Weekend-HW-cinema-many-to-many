@@ -8,7 +8,7 @@ attr_accessor :name, :funds
   def initialize( options )
     @id = options['id'].to_i if options['id']
     @name = options['name']
-    @funds = options['funds']
+    @funds = options['funds'].to_i
   end
 
   def save
@@ -31,12 +31,19 @@ attr_accessor :name, :funds
     sql = "SELECT films.*
     FROM films
     INNER JOIN tickets
-    ON tickets.film_id = film_id
+    ON tickets.film_id = films.id
     WHERE customer_id = $1"
     values = [@id]
     film_data = SqlRunner.run(sql, values)
     return Film.map_items(film_data)
+  end
 
+  def deduct_funds(cost)
+    @funds = @funds - cost
+  end
+
+  def how_many_tickets
+    self.films.length
   end
 
   def self.all()

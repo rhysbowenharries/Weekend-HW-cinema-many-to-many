@@ -53,6 +53,5 @@ ticket10.save
 
 
 
-
 binding.pry
 nil

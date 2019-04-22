@@ -36,7 +36,14 @@ class Film
     values = [@id]
     customer_data = SqlRunner.run(sql, values)
     return Customer.map_items(customer_data)
+  end
 
+  def buy_ticket(customer)
+    customer.deduct_funds(@price.to_i)
+  end
+
+  def how_many_customers
+    return self.customers.length
   end
 
   def self.all()
